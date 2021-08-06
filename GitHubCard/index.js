@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
@@ -11,24 +13,6 @@
 
     Skip to STEP 3 (line 34).
 */
-
-/*
-  STEP 4: Pass the data received from Github into your function,
-    and append the returned markup to the DOM as a child of .cards
-*/
-
-/*
-  STEP 5: Now that you have your own card getting added to the DOM, either
-    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
-    manually find some other users' github handles, or use the list found at the
-    bottom of the page. Get at least 5 different Github usernames and add them as
-    Individual strings to the friendsArray below.
-
-    Using that array, iterate over it, requesting data for each user, creating a new card for each
-    user, and adding that card to the DOM.
-*/
-
-const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +33,94 @@ const followersArray = [];
       </div>
     </div>
 */
+
+/*
+  STEP 4: Pass the data received from Github into your function,
+    and append the returned markup to the DOM as a child of .cards
+*/
+
+/*
+  STEP 5: Now that you have your own card getting added to the DOM, either
+    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
+    manually find some other users' github handles, or use the list found at the
+    bottom of the page. Get at least 5 different Github usernames and add them as
+    Individual strings to the friendsArray below.
+
+    Using that array, iterate over it, requesting data for each user, creating a new card for each
+    user, and adding that card to the DOM.
+*/
+
+// const getUser = () => {
+//   axios.get(`https://api.github.com/users/fromtimwithcode`)
+//   .then(response => {
+//     console.log(response);
+//     const userCard = githubCardMaker(response.data);
+//     entryPoint.appendChild(userCard);
+//   })
+//   .catch(error => {
+//     console.error(error);
+//   })
+// }
+
+// getUser();
+
+const followersArray = ['fromtimwithcode', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+  .then(response => {
+    const userCard = githubCardMaker(response.data)
+    entryPoint.appendChild(userCard);
+  })
+  .catch(error => {
+    console.error(error);
+  })
+});
+
+const entryPoint = document.querySelector('.cards');
+
+function githubCardMaker({ avatar_url, name, login, location, html_url, followers, following, bio }) {
+  const gitCard = document.createElement('div');
+  const userImg = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const usersName = document.createElement('h3');
+  const usersUsername = document.createElement('p');
+  const userLocation = document.createElement('p');
+  const userProfile = document.createElement('p');
+  const userGitAddress = document.createElement('a');
+  const userFollowers = document.createElement('p');
+  const userFollowing = document.createElement('p');
+  const userBio = document.createElement('p');
+  
+  userImg.src = avatar_url;
+  usersName.textContent = `Name: ${name}`;
+  usersUsername.textContent = `Username: ${login}`;
+  userLocation.textContent = `Location: ${location}`;
+  userProfile.textContent = `Profile: `;
+  userGitAddress.href = html_url;
+  userGitAddress.textContent = html_url;
+  userFollowers.textContent = `Followers: ${followers}`;
+  userFollowing.textContent = `Following: ${following}`;
+  userBio.textContent = `Bio: ${bio}`;
+
+  gitCard.classList.add('card');
+  cardInfo.classList.add('card-info');
+  usersName.classList.add('name');
+  usersUsername.classList.add('username');
+
+  gitCard.appendChild(userImg);
+  gitCard.appendChild(cardInfo);
+  cardInfo.appendChild(usersName);
+  cardInfo.appendChild(usersUsername);
+  cardInfo.appendChild(userLocation);
+  cardInfo.appendChild(userProfile);
+  userProfile.appendChild(userGitAddress);
+  cardInfo.appendChild(userFollowers);
+  cardInfo.appendChild(userFollowing);
+  cardInfo.appendChild(userBio);
+
+  return gitCard;
+}
 
 /*
   List of LS Instructors Github username's:
