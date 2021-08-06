@@ -64,14 +64,6 @@ const getUser = () => {
 
 getUser();
 
-// const timGit = axios.get(`https://api.github.com/users/fromtimwithcode`)
-//   .then(response => {
-//     console.log(response);
-//   })
-//   .catch(error => {
-//     console.error(error);
-//   });
-
 const followersArray = [];
 
 const entryPoint = document.querySelector('.cards');
@@ -99,6 +91,11 @@ function githubCardMaker({ avatar_url, name, login, location, html_url, follower
   userFollowers.textContent = `Followers: ${followers}`;
   userFollowing.textContent = `Following: ${following}`;
   userBio.textContent = `Bio: ${bio}`;
+
+  gitCard.classList.add('card');
+  cardInfo.classList.add('card-info');
+  usersName.classList.add('name');
+  usersUsername.classList.add('username');
 
   gitCard.appendChild(userImg);
   gitCard.appendChild(cardInfo);
