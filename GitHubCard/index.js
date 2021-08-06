@@ -50,21 +50,32 @@ import axios from 'axios';
     user, and adding that card to the DOM.
 */
 
-const getUser = () => {
-  axios.get(`https://api.github.com/users/fromtimwithcode`)
+// const getUser = () => {
+//   axios.get(`https://api.github.com/users/fromtimwithcode`)
+//   .then(response => {
+//     console.log(response);
+//     const userCard = githubCardMaker(response.data);
+//     entryPoint.appendChild(userCard);
+//   })
+//   .catch(error => {
+//     console.error(error);
+//   })
+// }
+
+// getUser();
+
+const followersArray = ['fromtimwithcode', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
   .then(response => {
-    console.log(response);
-    const userCard = githubCardMaker(response.data);
+    const userCard = githubCardMaker(response.data)
     entryPoint.appendChild(userCard);
   })
   .catch(error => {
     console.error(error);
   })
-}
-
-getUser();
-
-const followersArray = [];
+});
 
 const entryPoint = document.querySelector('.cards');
 
